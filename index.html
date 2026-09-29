@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多版本配置管理器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>多版本配置管理器</h1>
+      <p>IndexedDB 持久化 · Web Worker 计算 · Canvas DAG 版本树 · 无框架</p>
+    </div>
+    <div class="header-actions">
+      <span id="saveState" class="save-state">正在初始化…</span>
+      <button id="exportBtn" type="button">导出状态</button>
+      <button id="importBtn" type="button">导入状态</button>
+      <input id="importFile" type="file" accept="application/json,.json" class="hidden">
+      <button id="resetBtn" type="button" class="danger">重置演示</button>
+    </div>
+  </header>
+
+  <main class="app-grid">
+    <section class="stack">
+      <article class="panel">
+        <h2>版本树</h2>
+        <div class="panel-body">
+          <div id="treeWrap" class="tree-wrap"><canvas id="versionTree" aria-label="版本树"></canvas></div>
+          <p class="muted">点击节点切换查看版本；绿色边框为当前 HEAD，紫色标签表示回滚提交。</p>
+        </div>
+      </article>
+      <article class="panel">
+        <h2>版本列表</h2>
+        <div class="panel-body">
+          <div id="versionList" class="version-list"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>配置编辑</h2>
+      <div class="panel-body">
+        <div id="editorBanner"></div>
+        <div id="mergePanel"></div>
+        <div id="editor"></div>
+      </div>
+    </section>
+
+    <section class="stack">
+      <article class="panel">
+        <h2>版本对比</h2>
+        <div class="panel-body">
+          <div class="compare-grid">
+            <div class="field">
+              <label for="compareLeft">左侧版本</label>
+              <select id="compareLeft"></select>
+            </div>
+            <div class="field">
+              <label for="compareRight">右侧版本</label>
+              <select id="compareRight"></select>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button id="compareBtn" type="button" class="primary grow">计算差异</button>
+          </div>
+          <div id="diffResult"></div>
+        </div>
+      </article>
+      <article class="panel">
+        <h2>合并操作</h2>
+        <div class="panel-body">
+          <div class="field">
+            <label for="mergeSource">选择来源版本合并到当前版本</label>
+            <select id="mergeSource"></select>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button id="mergeBtn" type="button" class="primary grow">开始三路合并</button>
+          </div>
+          <p class="muted">共同祖先、字段删除与类型变化冲突均在 Worker 中计算；每个冲突必须显式标记后才能提交。</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="js/state.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/tree-canvas.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
